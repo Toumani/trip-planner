@@ -10,13 +10,15 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  height: 200px;
+  padding-bottom: 20px;
 }
 
 .App-link {
@@ -30,4 +32,21 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App-main {
+  padding: 20px 5%;
+}
+
+.form-section wired-input {
+  width: 150px;
+}
+
+.form-section .form-control {
+  display: inline-block;
+  margin: 0 2%;
+}
+
+.form-section .form-control label {
+  margin-right: 20px;
 }
