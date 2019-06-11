@@ -10,9 +10,10 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import Typography from '@material-ui/core/Typography';
 
 const inputStyle = {
-	width: '40%',
+	width: '100%',
 }
 
 const radioGroupStyle = {
@@ -94,18 +95,10 @@ class App extends React.Component {
 		return (
 			<div className="App">
 				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<p>
-						Edit <code>src/App.js</code> and save to reload.
-					</p>
-					<a
-						className="App-link"
-						href="https://reactjs.org"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Learn React
-					</a>
+					<h1>
+						<img src={logo} className="App-logo" alt="logo" />
+						Trip planner
+					</h1>
 				</header>
 				<main className="App-main">
 					<section className="form-section">
@@ -144,7 +137,7 @@ class App extends React.Component {
 							/>
 						</div>
 
-						<FormControl component="fieldset" style={{width: '40%'}}>
+						<FormControl component="fieldset" style={{width: '100%'}}>
 							{/* <FormLabel component="legend">Fuel type</FormLabel> */}
 							<RadioGroup
 								aria-label="Fuel type"
@@ -155,22 +148,20 @@ class App extends React.Component {
 								style={radioGroupStyle}
 								value={this.state.fuelType}
 							>
-								<FormControlLabel value="gazoline" control={<Radio />} label="Gazoline" />
-								<FormControlLabel value="petrol" control={<Radio />} label="Petrol" />
-								<FormControlLabel value="diesel" control={<Radio />} label="Diesel" />
-								<FormControlLabel value="custom" control={<Radio />} label="Custom" />
+								<FormControlLabel value="gazoline" control={<Radio style={{color: '#61dafb'}}/>} label="Gazoline" />
+								<FormControlLabel value="petrol" control={<Radio style={{color: '#61dafb'}}/>} label="Petrol" />
+								<FormControlLabel value="diesel" control={<Radio style={{color: '#61dafb'}}/>} label="Diesel" />
+								<FormControlLabel value="custom" control={<Radio style={{color: '#61dafb'}}/>} label="Custom" />
 							</RadioGroup>
 						</FormControl>
-
-						<div className="form-control">
-							{/* <label>Price (DH) :</label> */}
-							<TextField
-								label="Price (DH)"
-								readOnly
-								style={inputStyle}
-								value={price}
-							/>
-						</div>
+					</section>
+					<section className="result-section">
+						<Typography variant="overline" display="block" gutterBottom style={{textAlign: 'left', paddingLeft: '5%'}}>
+							Estimated cost
+						</Typography>
+						<Typography className="result" variant="h1" component="h2" gutterBottom>
+							{ price } DH
+						</Typography>
 					</section>
 				</main>
 			</div>

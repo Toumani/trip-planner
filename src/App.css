@@ -9,6 +9,7 @@
 }
 
 .App-header {
+  box-sizing: border-box;
   background-color: #282c34;
   /* min-height: 100vh; */
   display: flex;
@@ -17,12 +18,19 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  height: 200px;
+  height: 20vh;
   padding-bottom: 20px;
+  font-family: 'Pacifico', cursive;
 }
 
-.App-link {
+.App-header h1 {
   color: #61dafb;
+}
+
+.App-header h1 img {
+  width: 100px;
+  height: 100px;
+  vertical-align: middle;
 }
 
 @keyframes App-logo-spin {
@@ -35,7 +43,31 @@
 }
 
 .App-main {
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: auto;
+  height: 80vh;
   padding: 20px 5%;
+}
+
+@media (min-width: 1024px) {
+  .App-main {
+    width: 50%;
+  }
+
+  .result {
+    font-size: 5vw;
+  }
+}
+
+@media (max-width: 1024px) {
+  .App-main {
+    width: 100%;
+  }
+
+  .result {
+    font-size: 15vw;
+  }
 }
 
 .form-section wired-input {
@@ -51,4 +83,8 @@
 
 .form-section .form-control label {
   margin-right: 20px;
+}
+
+.result {
+  color: #61dafb;
 }
