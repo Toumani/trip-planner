@@ -15,6 +15,12 @@ const inputStyle = {
 	width: '40%',
 }
 
+const radioGroupStyle = {
+	flexDirection: 'row',
+	justifyContent: 'space-around',
+
+}
+
 const GASOLINE_PRICE = 9.87;
 const PETROL_PRICE = 10.33;
 const DIESEL_PRICE = 15.12; // Je dis n'importe quoi
@@ -127,23 +133,6 @@ class App extends React.Component {
 							/>
 						</div>
 
-						<FormControl component="fieldset">
-							<FormLabel component="legend">Fuel type</FormLabel>
-							<RadioGroup
-								aria-label="Fuel type"
-								name="fueltype"
-								onChange={(e) => {
-									this.setFuelType(e.target.value);
-								}}
-								value={this.state.fuelType}
-							>
-								<FormControlLabel value="gazoline" control={<Radio />} label="Gazoline" />
-								<FormControlLabel value="petrol" control={<Radio />} label="Petrol" />
-								<FormControlLabel value="diesel" control={<Radio />} label="Diesel" />
-								<FormControlLabel value="custom" control={<Radio />} label="Custom" />
-							</RadioGroup>
-						</FormControl>
-
 						<div className="form-control">
 							<TextField
 								label="Fuel price (DH/L)"
@@ -154,6 +143,24 @@ class App extends React.Component {
 								value={this.state.fuelPrice}
 							/>
 						</div>
+
+						<FormControl component="fieldset" style={{width: '40%'}}>
+							{/* <FormLabel component="legend">Fuel type</FormLabel> */}
+							<RadioGroup
+								aria-label="Fuel type"
+								name="fueltype"
+								onChange={(e) => {
+									this.setFuelType(e.target.value);
+								}}
+								style={radioGroupStyle}
+								value={this.state.fuelType}
+							>
+								<FormControlLabel value="gazoline" control={<Radio />} label="Gazoline" />
+								<FormControlLabel value="petrol" control={<Radio />} label="Petrol" />
+								<FormControlLabel value="diesel" control={<Radio />} label="Diesel" />
+								<FormControlLabel value="custom" control={<Radio />} label="Custom" />
+							</RadioGroup>
+						</FormControl>
 
 						<div className="form-control">
 							{/* <label>Price (DH) :</label> */}
