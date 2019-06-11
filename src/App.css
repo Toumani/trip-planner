@@ -40,11 +40,13 @@
 
 .form-section wired-input {
   width: 150px;
+  text-align: center;
 }
 
 .form-section .form-control {
-  display: inline-block;
+  display: block;
   margin: 0 2%;
+  padding: 25px 0;
 }
 
 .form-section .form-control label {
