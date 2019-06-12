@@ -110,6 +110,7 @@ class App extends React.Component {
 									this.setDistance(e.target.value);
 								}}
 								style={inputStyle}
+								type="number"
 								value={this.state.distance}
 							/>
 						</div>
@@ -122,6 +123,7 @@ class App extends React.Component {
 									this.setConsumption(e.target.value);
 								}}
 								style={inputStyle}
+								type="number"
 								value={this.state.consumption}
 							/>
 						</div>
@@ -133,6 +135,7 @@ class App extends React.Component {
 									this.setFuelPrice(e.target.value);
 								}}
 								style={inputStyle}
+								type="number"
 								value={this.state.fuelPrice}
 							/>
 						</div>

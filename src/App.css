@@ -44,7 +44,7 @@
 
 .App-main {
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: auto;
   margin: auto;
   height: 80vh;
   padding: 20px 5%;
