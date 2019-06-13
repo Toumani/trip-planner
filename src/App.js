@@ -31,8 +31,8 @@ class App extends React.Component {
 		super(props);
 
 		this.state = {
-			distance: 0,
-			consumption: 3.4,
+			distance: '0',
+			consumption: '3.4',
 			fuelType: 'gazoline',
 			fuelPrice: GASOLINE_PRICE,
 			price: 0,
@@ -94,7 +94,7 @@ class App extends React.Component {
 		const { price } = this.state;
 		return (
 			<div className="App">
-				<header className="App-header">
+				<header className="App-header notranslate">
 					<h1>
 						<img src={logo} className="App-logo" alt="logo" />
 						Trip planner
@@ -111,7 +111,7 @@ class App extends React.Component {
 								}}
 								style={inputStyle}
 								type="number"
-								value={this.state.distance}
+								value={this.state.distance === '0' ? '' : this.state.distance}
 							/>
 						</div>
 
@@ -162,7 +162,7 @@ class App extends React.Component {
 						<Typography variant="overline" display="block" gutterBottom style={{textAlign: 'left', paddingLeft: '5%'}}>
 							Estimated cost
 						</Typography>
-						<Typography className="result" variant="h1" component="h2" gutterBottom>
+						<Typography className="result notranslate" variant="h1" component="h2" gutterBottom>
 							{ price } DH
 						</Typography>
 					</section>
