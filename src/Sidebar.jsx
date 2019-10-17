@@ -1,5 +1,7 @@
 import React from 'react';
 
+import i18next from 'i18next';
+
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
@@ -32,10 +34,14 @@ class Sidebar extends React.Component {
         this.props.setLanguage(lang);
     }
 
+    closeSidebar = () => {
+        this.props.closeSidebar();
+    }
+
     render() {
-        const { classes } = this.props;
+        const { classes, open, config } = this.props;
         return (
-            <Drawer open={true} id="sidebar-container">
+            <Drawer open={open} id="sidebar-container" onClose={this.closeSidebar}>
                 <div id="content">
                     <Typography
                         variant="overline"
@@ -43,7 +49,7 @@ class Sidebar extends React.Component {
                         align="center"
                         gutterBottom
                     >
-                        Parameters
+                        {i18next.t('settings.label')}
                     </Typography>
                     <Divider />
                     <Typography
@@ -52,12 +58,13 @@ class Sidebar extends React.Component {
                         align="left"
                         gutterBottom
                     >
-                        Language
+                        {i18next.t('language.label')}
                     </Typography>
                     <FormControl component="fieldset" style={{width: '100%'}}>
                         <RadioGroup
                             aria-label="Language"
                             name="lang"
+                            defaultValue={config.lang}
                             style={radioGroupStyle}
                             onChange={(e) => {
                                 this.setLanguage(e.target.value)

@@ -88,3 +88,24 @@
 .result {
   color: #61dafb;
 }
+
+#settings-button-container {
+  position: absolute;
+  left: 0px;
+  top: 25vh;
+  padding: 5px 10px 5px 10px;
+  background-color: #ccc;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  box-shadow: #282c34 0 0 10px;
+
+  transition: padding-left 0.2s ease-in-out, box-shadow 0.2s;
+
+}
+
+#settings-button-container:hover {
+  padding-left: 20px;
+  cursor: pointer;
+  /* box-shadow: #61dafb 0 0 15px; */
+  box-shadow: #282c34 0 0 15px;
+}

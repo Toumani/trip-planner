@@ -8,6 +8,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
+import Icon from '@material-ui/core/Icon';
 
 import i18next from 'i18next';
 
@@ -29,6 +30,8 @@ const i18n = i18next.init({
 		  gazoline: { label: 'Gazoline',},
 		  petrol: {label: 'Petrol'},
 		  custom: {label: 'Custom'},
+		  settings: {label: 'Settings'},
+		  language: {label: 'Language'},
         },
       },
       fr: {
@@ -40,6 +43,8 @@ const i18n = i18next.init({
 			gazoline: { label: 'Diesel',},
 			petrol: {label: 'Essence'},
 			custom: {label: 'Custom'},
+			settings: {label: 'Paramètres'},
+			language: {label: 'Langue'},
 		},
       },
     },
@@ -76,6 +81,8 @@ class App extends React.Component {
 			fuelType: 'gazoline',
 			fuelPrice: GASOLINE_PRICE,
 			price: 0,
+			lang: 'en',
+			sidebarOpen: false,
 		}
 	}
 
@@ -130,21 +137,32 @@ class App extends React.Component {
 		this.setState({price: ((distance*consumption*fuelPrice).toFixed(8)/100).toFixed(2)});
 	}
 
+	openSidebar = () => {
+		this.setState({sidebarOpen: true});
+	}
+
+	closeSidebar = () => {
+		this.setState({sidebarOpen: false});
+	}
+
 	changeLanguage = (lang) => {
-		console.log('Setting language to ' + lang)
+		this.setState({lang})
 		i18next.changeLanguage(lang);
 		this.forceUpdate();
 	}
 
 	render() {
 		const { price } = this.state;
-		console.log('i18n:', i18n);
-		console.log('i18next:', i18next);
 		
 		return (
 			<div className="App">
 				<Sidebar
 					setLanguage={this.changeLanguage}
+					closeSidebar={this.closeSidebar}
+					open={this.state.sidebarOpen}
+					config={{
+						lang: this.state.lang
+					}}
 				/>
 				<header className="App-header notranslate">
 					<h1>
@@ -153,6 +171,9 @@ class App extends React.Component {
 					</h1>
 				</header>
 				<main className="App-main">
+					<div id="settings-button-container" onClick={this.openSidebar}>
+						<Icon>build</Icon>
+					</div>
 					<section className="form-section">
 						<div className="form-control">
 							<TextField
@@ -180,7 +201,7 @@ class App extends React.Component {
 
 						<div className="form-control">
 							<TextField
-								label={i18next.t('fuelConsumption.label') + ' (DH/L)'}
+								label={i18next.t('fuelPrice.label') + ' (DH/L)'}
 								onChange={(e) => {
 									this.setFuelPrice(e.target.value);
 								}}
@@ -215,8 +236,6 @@ class App extends React.Component {
 							{ price } DH
 						</Typography>
 					</section>
-					<button onClick={() => this.changeLanguage('en')}>English</button>
-					<button onClick={() => this.changeLanguage('es')}>Spanish</button>
 				</main>
 			</div>
 		);
