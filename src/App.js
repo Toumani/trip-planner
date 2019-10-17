@@ -2,6 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -13,8 +16,12 @@ import Icon from '@material-ui/core/Icon';
 import i18next from 'i18next';
 
 import Sidebar from './Sidebar';
+import LogoSvg from './LogoSvg';
 
-const i18n = i18next.init({
+const styles = theme => ({
+})
+
+i18next.init({
     interpolation: {
       // React already does escaping
       escapeValue: false,
@@ -32,6 +39,8 @@ const i18n = i18next.init({
 		  custom: {label: 'Custom'},
 		  settings: {label: 'Settings'},
 		  language: {label: 'Language'},
+		  values: 'Values',
+		  theme: 'Theme',
         },
       },
       fr: {
@@ -45,6 +54,8 @@ const i18n = i18next.init({
 			custom: {label: 'Custom'},
 			settings: {label: 'Paramètres'},
 			language: {label: 'Langue'},
+			values: 'Valeurs',
+			theme: 'Theme',
 		},
       },
     },
@@ -83,6 +94,11 @@ class App extends React.Component {
 			price: 0,
 			lang: 'en',
 			sidebarOpen: false,
+			theme: {
+                name: 'CRA',
+                primaryColor: '#61dafb',
+                secondaryColor: '#282c34'
+            },
 		}
 	}
 
@@ -146,29 +162,41 @@ class App extends React.Component {
 	}
 
 	changeLanguage = (lang) => {
-		this.setState({lang})
+		this.setState({lang});
 		i18next.changeLanguage(lang);
 		this.forceUpdate();
 	}
 
+	setTheme = (theme) => {
+		console.log('Setting theme to ' + theme.name)
+		this.setState({theme});
+	}
+
 	render() {
 		const { price } = this.state;
-		
+		const { classes } = this.props;
+		console.log('classes:', classes);
 		return (
 			<div className="App">
 				<Sidebar
 					setLanguage={this.changeLanguage}
+					setTheme={this.setTheme}
 					closeSidebar={this.closeSidebar}
 					open={this.state.sidebarOpen}
 					config={{
-						lang: this.state.lang
+						lang: this.state.lang,
+						theme: this.state.theme,
+						themeName: this.state.theme.name, // TODO get rid of this prop
 					}}
 				/>
-				<header className="App-header notranslate">
-					<h1>
-						<img src={logo} className="App-logo" alt="logo" />
-						Trip planner
-					</h1>
+				<header className="App-header notranslate" style={{backgroundColor: this.state.theme.secondaryColor}}>
+					<div>
+						<LogoSvg color={this.state.theme.primaryColor} />
+						<h1 style={{color: this.state.theme.primaryColor}}>
+							Trip planner
+						</h1>
+					</div>
+					
 				</header>
 				<main className="App-main">
 					<div id="settings-button-container" onClick={this.openSidebar}>
@@ -221,10 +249,10 @@ class App extends React.Component {
 								style={radioGroupStyle}
 								value={this.state.fuelType}
 							>
-								<FormControlLabel value="gazoline" control={<Radio style={{color: '#61dafb'}}/>} label={i18next.t('gazoline.label')} />
-								<FormControlLabel value="petrol" control={<Radio style={{color: '#61dafb'}}/>} label={i18next.t('petrol.label')} />
-								<FormControlLabel value="diesel" control={<Radio style={{color: '#61dafb'}}/>} label={i18next.t('diesel.label')} />
-								<FormControlLabel value="custom" control={<Radio style={{color: '#61dafb'}}/>} label={i18next.t('custom.label')} />
+								<FormControlLabel value="gazoline" control={<Radio style={{color: this.state.theme.primaryColor}}/>} label={i18next.t('gazoline.label')} />
+								<FormControlLabel value="petrol" control={<Radio style={{color: this.state.theme.primaryColor}}/>} label={i18next.t('petrol.label')} />
+								<FormControlLabel value="diesel" control={<Radio style={{color: this.state.theme.primaryColor}}/>} label={i18next.t('diesel.label')} />
+								<FormControlLabel value="custom" control={<Radio style={{color: this.state.theme.primaryColor}}/>} label={i18next.t('custom.label')} />
 							</RadioGroup>
 						</FormControl>
 					</section>
@@ -232,7 +260,7 @@ class App extends React.Component {
 						<Typography variant="overline" display="block" gutterBottom style={{textAlign: 'left', paddingLeft: '5%'}}>
 							{i18next.t('cost.label')}
 						</Typography>
-						<Typography className="result notranslate" variant="h1" component="h2" gutterBottom>
+						<Typography className="result notranslate" variant="h1" component="h2" gutterBottom style={{color: this.state.theme.primaryColor}}>
 							{ price } DH
 						</Typography>
 					</section>
@@ -242,4 +270,8 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+App.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);

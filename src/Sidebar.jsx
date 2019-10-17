@@ -14,6 +14,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
 
 const radioGroupStyle = {
 	flexDirection: 'row',
@@ -34,12 +35,40 @@ class Sidebar extends React.Component {
         this.props.setLanguage(lang);
     }
 
+    setTheme = (theme) => {
+        this.props.setTheme(theme);
+    }
+
     closeSidebar = () => {
         this.props.closeSidebar();
     }
 
     render() {
         const { classes, open, config } = this.props;
+
+		console.log('classes:', classes);
+        const themes = [
+            {
+                name: 'CRA',
+                primaryColor: '#61dafb',
+                secondaryColor: '#282c34'
+            },
+            {
+                name: 'Firefox',
+                primaryColor: '#ff9400',
+                secondaryColor: '#000f40'
+            },
+            {
+                name: 'Dark',
+                primaryColor: '#737373',
+                secondaryColor: '#0c0c0d'
+            },
+            {
+                name: 'Default',
+                primaryColor: '#0c0c0d',
+                secondaryColor: '#ededf0'
+            },
+        ]
         return (
             <Drawer open={open} id="sidebar-container" onClose={this.closeSidebar}>
                 <div id="content">
@@ -70,11 +99,43 @@ class Sidebar extends React.Component {
                                 this.setLanguage(e.target.value)
                             }}
                         >
-                            <FormControlLabel value="en" control={<Radio style={{color: '#61dafb'}}/>} classes={{root: classes.radioRoot, label: classes.radioLabel}} label="English" />
-                            <FormControlLabel value="fr" control={<Radio style={{color: '#61dafb'}}/>} classes={{root: classes.radioRoot, label: classes.radioLabel}} label="français" />
+                            <FormControlLabel value="en" control={<Radio style={{color: config.theme.primaryColor}}/>} classes={{root: classes.radioRoot, label: classes.radioLabel}} label="English" />
+                            <FormControlLabel value="fr" control={<Radio style={{color: config.theme.primaryColor}}/>} classes={{root: classes.radioRoot, label: classes.radioLabel}} label="français" />
                         </RadioGroup>
                     </FormControl>
                     <Divider />
+                    <Typography
+                        variant="caption"
+                        component="h3"
+                        align="left"
+                        gutterBottom
+                    >
+                        {i18next.t('theme')}
+                    </Typography>
+                    <Grid
+                        container
+                        justify="space-around"
+                        direction="row"
+                        alignItems="flex-start"
+                    >
+                        { themes.map((theme, index) => (
+                            <Grid key={index} item className={'theme-svg-container' + (config.themeName === theme.name ? ' selected' : '')}>
+                                <svg height="100" width="125" onClick={(e) => this.setTheme(theme)}>
+                                    <polygon points="0,0 0,100 125,100" style={{fill: theme.secondaryColor,}} />
+                                    <polygon points="0,0 125,0 125,100" style={{fill: theme.primaryColor, stroke: '#000', strokeWidth: 1}} />
+                                </svg>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    {/* <Divider />
+                    <Typography
+                        variant="caption"
+                        component="h3"
+                        align="left"
+                        gutterBottom
+                    >
+                        {i18next.t('values')}
+                    </Typography> */}
                 </div>
             </Drawer>
         )

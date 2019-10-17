@@ -10,7 +10,6 @@
 
 .App-header {
   box-sizing: border-box;
-  background-color: #282c34;
   /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
@@ -24,7 +23,8 @@
 }
 
 .App-header h1 {
-  color: #61dafb;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .App-header h1 img {
