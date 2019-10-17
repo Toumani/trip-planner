@@ -1,15 +1,13 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
-
 const logoSvgStyle = {
-    animation: 'App-logo-spin infinite 20s linear',
+    animation: 'AppLogoSpin infinite 20s linear',
     height: '20vmin',
     pointerEvents: 'none',
     display: 'inline-block',
     verticalAlign: 'middle',
 
-    '@keyframes App-logo-spin': {
+    '@keyframes AppLogoSpin': {
         from: {
             transform: 'rotate(0deg)'
         },
@@ -32,9 +30,5 @@ class LogoSvg extends React.Component {
         )
     }
 }
-
-LogoSvg.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default (LogoSvg);

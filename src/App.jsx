@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -20,53 +19,6 @@ import LogoSvg from './LogoSvg';
 
 const styles = theme => ({
 })
-
-i18next.init({
-    interpolation: {
-      // React already does escaping
-      escapeValue: false,
-    },
-    lng: 'en',
-    resources: {
-      en: {
-        translation: {
-          distance: { label: 'Distance', },
-          fuelConsumption: { label: 'Fuel consumption', },
-		  fuelPrice: { label: 'Fuel Price', },
-		  cost: { label: 'Cost estimation'},
-		  gazoline: { label: 'Gazoline',},
-		  petrol: {label: 'Petrol'},
-		  custom: {label: 'Custom'},
-		  settings: {label: 'Settings'},
-		  language: {label: 'Language'},
-		  values: 'Values',
-		  theme: 'Theme',
-        },
-      },
-      fr: {
-        translation: {
-			distance: { label: 'Distance', },
-			fuelConsumption: { label: 'Consommation', },
-			fuelPrice: { label: 'Prix du carburant', },
-			cost: { label: 'Coût estimé'},
-			gazoline: { label: 'Diesel',},
-			petrol: {label: 'Essence'},
-			custom: {label: 'Custom'},
-			settings: {label: 'Paramètres'},
-			language: {label: 'Langue'},
-			values: 'Valeurs',
-			theme: 'Theme',
-		},
-      },
-    },
-  },
-  (err, t) => {
-    if (err) {
-      return console.error(err)
-    }
-    console.log('i18n successfully initialized')
-  }
-)
 
 const inputStyle = {
 	width: '100%',
@@ -131,6 +83,9 @@ class App extends React.Component {
 			case 'diesel':
 				fuelPrice = DIESEL_PRICE;
 				break;
+			default:
+				fuelPrice = GASOLINE_PRICE;
+				break;
 		}
 		this.setState({
 			fuelType: fuelType,
@@ -168,14 +123,11 @@ class App extends React.Component {
 	}
 
 	setTheme = (theme) => {
-		console.log('Setting theme to ' + theme.name)
 		this.setState({theme});
 	}
 
 	render() {
 		const { price } = this.state;
-		const { classes } = this.props;
-		console.log('classes:', classes);
 		return (
 			<div className="App">
 				<Sidebar
@@ -186,7 +138,6 @@ class App extends React.Component {
 					config={{
 						lang: this.state.lang,
 						theme: this.state.theme,
-						themeName: this.state.theme.name, // TODO get rid of this prop
 					}}
 				/>
 				<header className="App-header notranslate" style={{backgroundColor: this.state.theme.secondaryColor}}>

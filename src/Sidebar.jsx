@@ -16,6 +16,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 
+import themes from './constants/themes';
+
 const radioGroupStyle = {
 	flexDirection: 'row',
     justifyContent: 'space-around'
@@ -26,8 +28,6 @@ const styles = theme => ({
         fontSize: '0.8em',
     }
 });
-
-
 
 class Sidebar extends React.Component {
 
@@ -45,30 +45,6 @@ class Sidebar extends React.Component {
 
     render() {
         const { classes, open, config } = this.props;
-
-		console.log('classes:', classes);
-        const themes = [
-            {
-                name: 'CRA',
-                primaryColor: '#61dafb',
-                secondaryColor: '#282c34'
-            },
-            {
-                name: 'Firefox',
-                primaryColor: '#ff9400',
-                secondaryColor: '#000f40'
-            },
-            {
-                name: 'Dark',
-                primaryColor: '#737373',
-                secondaryColor: '#0c0c0d'
-            },
-            {
-                name: 'Default',
-                primaryColor: '#0c0c0d',
-                secondaryColor: '#ededf0'
-            },
-        ]
         return (
             <Drawer open={open} id="sidebar-container" onClose={this.closeSidebar}>
                 <div id="content">
@@ -119,7 +95,7 @@ class Sidebar extends React.Component {
                         alignItems="flex-start"
                     >
                         { themes.map((theme, index) => (
-                            <Grid key={index} item className={'theme-svg-container' + (config.themeName === theme.name ? ' selected' : '')}>
+                            <Grid key={index} item className={'theme-svg-container' + (config.theme.name === theme.name ? ' selected' : '')}>
                                 <svg height="100" width="125" onClick={(e) => this.setTheme(theme)}>
                                     <polygon points="0,0 0,100 125,100" style={{fill: theme.secondaryColor,}} />
                                     <polygon points="0,0 125,0 125,100" style={{fill: theme.primaryColor, stroke: '#000', strokeWidth: 1}} />
