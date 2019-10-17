@@ -11,26 +11,36 @@ import Typography from '@material-ui/core/Typography';
 
 import i18next from 'i18next';
 
+import Sidebar from './Sidebar';
+
 const i18n = i18next.init({
     interpolation: {
       // React already does escaping
       escapeValue: false,
     },
-    lng: 'en', // 'en' | 'es'
+    lng: 'en',
     resources: {
       en: {
         translation: {
-          age: { label: 'Age', },
-          home: { label: 'Home', },
-          name: { label: 'Name', },
+          distance: { label: 'Distance', },
+          fuelConsumption: { label: 'Fuel consumption', },
+		  fuelPrice: { label: 'Fuel Price', },
+		  cost: { label: 'Cost estimation'},
+		  gazoline: { label: 'Gazoline',},
+		  petrol: {label: 'Petrol'},
+		  custom: {label: 'Custom'},
         },
       },
-      es: {
+      fr: {
         translation: {
-          age: { label: 'Años', },
-          home: { label: 'Casa', },
-          name: { label: 'Nombre', },
-        },
+			distance: { label: 'Distance', },
+			fuelConsumption: { label: 'Consommation', },
+			fuelPrice: { label: 'Prix du carburant', },
+			cost: { label: 'Coût estimé'},
+			gazoline: { label: 'Diesel',},
+			petrol: {label: 'Essence'},
+			custom: {label: 'Custom'},
+		},
       },
     },
   },
@@ -133,19 +143,20 @@ class App extends React.Component {
 		
 		return (
 			<div className="App">
+				<Sidebar
+					setLanguage={this.changeLanguage}
+				/>
 				<header className="App-header notranslate">
 					<h1>
 						<img src={logo} className="App-logo" alt="logo" />
 						Trip planner
-						{i18next.t('name.label')}
 					</h1>
 				</header>
 				<main className="App-main">
 					<section className="form-section">
 						<div className="form-control">
-							{/* <label>Distance (km) :</label> */}
 							<TextField
-								label="Distance (km)"
+								label={i18next.t('distance.label') + ' (km)'}
 								onChange={(e) => {
 									this.setDistance(e.target.value);
 								}}
@@ -156,9 +167,8 @@ class App extends React.Component {
 						</div>
 
 						<div className="form-control">
-							{/* <label>Fuel consumption (L/100km) :</label> */}
 							<TextField
-								label="Fuel consumption (L/100km)"
+								label={i18next.t('fuelConsumption.label') + ' (L/km)'}
 								onChange={(e) => {
 									this.setConsumption(e.target.value);
 								}}
@@ -170,7 +180,7 @@ class App extends React.Component {
 
 						<div className="form-control">
 							<TextField
-								label="Fuel price (DH/L)"
+								label={i18next.t('fuelConsumption.label') + ' (DH/L)'}
 								onChange={(e) => {
 									this.setFuelPrice(e.target.value);
 								}}
@@ -181,7 +191,6 @@ class App extends React.Component {
 						</div>
 
 						<FormControl component="fieldset" style={{width: '100%'}}>
-							{/* <FormLabel component="legend">Fuel type</FormLabel> */}
 							<RadioGroup
 								aria-label="Fuel type"
 								name="fueltype"
@@ -191,16 +200,16 @@ class App extends React.Component {
 								style={radioGroupStyle}
 								value={this.state.fuelType}
 							>
-								<FormControlLabel value="gazoline" control={<Radio style={{color: '#61dafb'}}/>} label="Gazoline" />
-								<FormControlLabel value="petrol" control={<Radio style={{color: '#61dafb'}}/>} label="Petrol" />
-								<FormControlLabel value="diesel" control={<Radio style={{color: '#61dafb'}}/>} label="Diesel" />
-								<FormControlLabel value="custom" control={<Radio style={{color: '#61dafb'}}/>} label="Custom" />
+								<FormControlLabel value="gazoline" control={<Radio style={{color: '#61dafb'}}/>} label={i18next.t('gazoline.label')} />
+								<FormControlLabel value="petrol" control={<Radio style={{color: '#61dafb'}}/>} label={i18next.t('petrol.label')} />
+								<FormControlLabel value="diesel" control={<Radio style={{color: '#61dafb'}}/>} label={i18next.t('diesel.label')} />
+								<FormControlLabel value="custom" control={<Radio style={{color: '#61dafb'}}/>} label={i18next.t('custom.label')} />
 							</RadioGroup>
 						</FormControl>
 					</section>
 					<section className="result-section">
 						<Typography variant="overline" display="block" gutterBottom style={{textAlign: 'left', paddingLeft: '5%'}}>
-							Estimated cost
+							{i18next.t('cost.label')}
 						</Typography>
 						<Typography className="result notranslate" variant="h1" component="h2" gutterBottom>
 							{ price } DH

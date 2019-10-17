@@ -1,0 +1,17 @@
+#content {
+    transition: width 0.2s;
+}
+
+@media (min-width: 1024px) {
+    #content {
+        width: 350px;
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 1024px) {
+    #content {
+        width: 150px;
+        padding: 20px 5px;
+    }
+}
