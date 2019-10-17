@@ -2,15 +2,45 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { WiredInput } from "wired-input"
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@material-ui/core/Typography';
+
+import i18next from 'i18next';
+
+const i18n = i18next.init({
+    interpolation: {
+      // React already does escaping
+      escapeValue: false,
+    },
+    lng: 'en', // 'en' | 'es'
+    resources: {
+      en: {
+        translation: {
+          age: { label: 'Age', },
+          home: { label: 'Home', },
+          name: { label: 'Name', },
+        },
+      },
+      es: {
+        translation: {
+          age: { label: 'Años', },
+          home: { label: 'Casa', },
+          name: { label: 'Nombre', },
+        },
+      },
+    },
+  },
+  (err, t) => {
+    if (err) {
+      return console.error(err)
+    }
+    console.log('i18n successfully initialized')
+  }
+)
 
 const inputStyle = {
 	width: '100%',
@@ -90,14 +120,24 @@ class App extends React.Component {
 		this.setState({price: ((distance*consumption*fuelPrice).toFixed(8)/100).toFixed(2)});
 	}
 
+	changeLanguage = (lang) => {
+		console.log('Setting language to ' + lang)
+		i18next.changeLanguage(lang);
+		this.forceUpdate();
+	}
+
 	render() {
 		const { price } = this.state;
+		console.log('i18n:', i18n);
+		console.log('i18next:', i18next);
+		
 		return (
 			<div className="App">
 				<header className="App-header notranslate">
 					<h1>
 						<img src={logo} className="App-logo" alt="logo" />
 						Trip planner
+						{i18next.t('name.label')}
 					</h1>
 				</header>
 				<main className="App-main">
@@ -166,6 +206,8 @@ class App extends React.Component {
 							{ price } DH
 						</Typography>
 					</section>
+					<button onClick={() => this.changeLanguage('en')}>English</button>
+					<button onClick={() => this.changeLanguage('es')}>Spanish</button>
 				</main>
 			</div>
 		);
