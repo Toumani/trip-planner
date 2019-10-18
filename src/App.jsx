@@ -38,9 +38,8 @@ const radioGroupStyle = {
 
 }
 
-const GASOLINE_PRICE = 9.87;
-const PETROL_PRICE = 10.33;
-const DIESEL_PRICE = 15.12; // Je dis n'importe quoi
+const GASOLINE_PRICE = 10.33;
+const DIESEL_PRICE = 8.87; // Je dis n'importe quoi
 
 class App extends React.Component {
 	constructor(props) {
@@ -56,10 +55,10 @@ class App extends React.Component {
 			years: [],
 			year: null,
 
-			consumption: '3.4',
+			consumption: '0',
 			fuelType: 'gazoline',
 			fuelPrice: GASOLINE_PRICE,
-			price: 0,
+			price: (0).toFixed(2),
 			lang: 'en',
 			sidebarOpen: false,
 			theme: {
@@ -96,13 +95,21 @@ class App extends React.Component {
 								modelsSet.delete(brand.Model);
 								models.push({
 									name: brand.Model,
-									years: [brand.Model_Year],
+									years: [{
+										year: brand.Model_Year,
+										city: brand.City_Conventional_Fuel,
+										hwy: brand.Hwy_Conventional_Fuel,
+									}],
 								});
 							}
 							else {
 								models.forEach(model => {
 									if (model.name === brand.Model) {
-										model.years.push(brand.Model_Year);
+										model.years.push({
+											year: brand.Model_Year,
+											city: brand.City_Conventional_Fuel,
+											hwy: brand.Hwy_Conventional_Fuel,
+										});
 									}
 								})
 							}
@@ -122,9 +129,7 @@ class App extends React.Component {
 			return;
 		}
 		else if (e.target.name === 'year') {
-			this.setState({
-				year: e.target.value,
-			})
+			this.setConsumption((e.target.value.city + e.target.value.hwy)/20);
 		}
 		this.setState({
 			[e.target.name]: e.target.value
@@ -145,9 +150,6 @@ class App extends React.Component {
 		switch (fuelType) {
 			case 'gazoline':
 				fuelPrice = GASOLINE_PRICE;
-				break;
-			case 'petrol':
-				fuelPrice = PETROL_PRICE;
 				break;
 			case 'diesel':
 				fuelPrice = DIESEL_PRICE;
@@ -202,6 +204,8 @@ class App extends React.Component {
 			model,
 			years,
 			year,
+
+			consumption,
 
 			price
 		} = this.state;
@@ -303,22 +307,16 @@ class App extends React.Component {
 										>
 											{
 												years.map(year => (
-													<MenuItem key={year} value={year}>{year}</MenuItem>
+													<MenuItem key={year.year} value={year}>{year.year}</MenuItem>
 												))
 											}
 										</Select>
 									</FormControl>
 								</Grid>
 							</Grid>
-							{/* <TextField
-								label={i18next.t('fuelConsumption.label') + ' (L/km)'}
-								onChange={(e) => {
-									this.setConsumption(e.target.value);
-								}}
-								style={inputStyle}
-								type="number"
-								value={this.state.consumption}
-							/> */}
+							<Typography variant="overline" display="block" style={{textAlign: 'left'}} gutterBottom>
+								{ i18next.t('estimatedConsumption') + ' ' + consumption + ' L/100km' }
+							</Typography>
 						</div>
 
 						<div className="form-control">
@@ -344,7 +342,6 @@ class App extends React.Component {
 								value={this.state.fuelType}
 							>
 								<FormControlLabel value="gazoline" control={<Radio style={{color: this.state.theme.primaryColor}}/>} label={i18next.t('gazoline.label')} />
-								<FormControlLabel value="petrol" control={<Radio style={{color: this.state.theme.primaryColor}}/>} label={i18next.t('petrol.label')} />
 								<FormControlLabel value="diesel" control={<Radio style={{color: this.state.theme.primaryColor}}/>} label={i18next.t('diesel.label')} />
 								<FormControlLabel value="custom" control={<Radio style={{color: this.state.theme.primaryColor}}/>} label={i18next.t('custom.label')} />
 							</RadioGroup>
@@ -354,7 +351,7 @@ class App extends React.Component {
 						<Typography variant="overline" display="block" gutterBottom style={{textAlign: 'left', paddingLeft: '5%'}}>
 							{i18next.t('cost.label')}
 						</Typography>
-						<Typography className="result notranslate" variant="h1" component="h2" gutterBottom style={{color: this.state.theme.primaryColor}}>
+						<Typography className="result notranslate" variant="h1" component="h2" style={{color: this.state.theme.primaryColor}}>
 							{ price } DH
 						</Typography>
 					</section>

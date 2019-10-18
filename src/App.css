@@ -47,7 +47,7 @@
   overflow: auto;
   margin: auto;
   height: 80vh;
-  padding: 20px 5%;
+  padding: 10px 5%;
 }
 
 @media (min-width: 1024px) {

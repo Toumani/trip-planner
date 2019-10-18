@@ -4,7 +4,7 @@ export default {
     fuelPrice: { label: 'Fuel Price', },
     cost: { label: 'Cost estimation'},
     gazoline: { label: 'Gazoline',},
-    petrol: {label: 'Petrol'},
+    diesel: { label: 'Diesel'},
     custom: {label: 'Custom'},
     settings: {label: 'Settings'},
     language: {label: 'Language'},
@@ -13,4 +13,5 @@ export default {
     brand: 'Brand',
     model: 'Model',
     year: 'Year',
+    estimatedConsumption: 'Estimated mixed consumption for chosen car:',
   }
