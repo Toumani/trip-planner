@@ -11,5 +11,8 @@ export default {
         language: {label: 'Langue'},
         values: 'Valeurs',
         theme: 'Theme',
+        brand: 'Marque',
+        model: 'Modèle',
+        year: 'Année',
     },
   }

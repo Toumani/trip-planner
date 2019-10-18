@@ -11,11 +11,19 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
+import Grid from '@material-ui/core/Grid';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import i18next from 'i18next';
 
+import axios from 'axios';
+
 import Sidebar from './Sidebar';
 import LogoSvg from './LogoSvg';
+
+import brands from './constants/brands';
 
 const styles = theme => ({
 })
@@ -39,7 +47,15 @@ class App extends React.Component {
 		super(props);
 
 		this.state = {
+			// form info
 			distance: '0',
+
+			brand: null,
+			models: [],
+			model: null,
+			years: [],
+			year: null,
+
 			consumption: '3.4',
 			fuelType: 'gazoline',
 			fuelPrice: GASOLINE_PRICE,
@@ -60,6 +76,59 @@ class App extends React.Component {
 			distance: distance,
 			price: ((distance*consumption*fuelPrice).toFixed(8)/100).toFixed(2),
 		});
+	}
+
+	handleChange = (e) => {
+		if (e.target.name === 'brand') {
+			// Request for available models
+			const apiKey = 'zaGD2zbw8RVZov4X6gLFEfTAdTUAieOU';
+			axios
+					.get(`https://apis.solarialabs.com/shine/v1/vehicle-stats/fuel-usage?make=${e.target.value}&car-truck=car&apikey=${apiKey}`)
+					.then((response) => {
+						console.log('response:', response);
+						let models = [];
+						let modelsSet = new Set();
+						response.data.forEach(brand => {
+							modelsSet.add(brand.Model);
+						});
+						response.data.forEach(brand => {
+							if (modelsSet.has(brand.Model)) {
+								modelsSet.delete(brand.Model);
+								models.push({
+									name: brand.Model,
+									years: [brand.Model_Year],
+								});
+							}
+							else {
+								models.forEach(model => {
+									if (model.name === brand.Model) {
+										model.years.push(brand.Model_Year);
+									}
+								})
+							}
+						});
+						console.log('models:', models);
+						this.setState({models});
+					})
+					.catch((error) => {
+						console.log('error:', error);
+					})
+		}
+		else if (e.target.name === 'model') {
+			this.setState({
+				model: e.target.value,
+				years: e.target.value.years,
+			})
+			return;
+		}
+		else if (e.target.name === 'year') {
+			this.setState({
+				year: e.target.value,
+			})
+		}
+		this.setState({
+			[e.target.name]: e.target.value
+		})
 	}
 
 	setConsumption = (consumption) => {
@@ -127,7 +196,15 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { price } = this.state;
+		const {
+			brand,
+			models,
+			model,
+			years,
+			year,
+
+			price
+		} = this.state;
 		return (
 			<div className="App">
 				<Sidebar
@@ -167,7 +244,73 @@ class App extends React.Component {
 						</div>
 
 						<div className="form-control">
-							<TextField
+							<Grid
+								container
+								justify="space-around"
+								direction="row"
+								alignItems="flex-start"
+								spacing={2}
+							>
+								<Grid item xs={12} md={4}>
+									<FormControl style={inputStyle}>
+										<InputLabel htmlFor="brand">{i18next.t('brand')}</InputLabel>
+										<Select
+											inputProps={{
+												name: 'brand',
+												id: 'brand',
+											}}
+											value={brand}
+											onChange={this.handleChange}
+										>
+											{
+												brands.map((brand) => (
+													<MenuItem key={brand} value={brand}>{brand}</MenuItem>
+												))
+											}
+										
+										</Select>
+									</FormControl>
+								</Grid>
+								<Grid item xs={12} md={4}>
+									<FormControl style={inputStyle}>
+										<InputLabel htmlFor="model">{i18next.t('model')}</InputLabel>
+										<Select
+											inputProps={{
+												name: 'model',
+												id: 'model',
+											}}
+											value={model}
+											onChange={this.handleChange}
+										>
+											{
+												models.map(model => (
+													<MenuItem key={model.name} value={model}>{model.name}</MenuItem>
+												))
+											}
+										</Select>
+									</FormControl>
+								</Grid>
+								<Grid item xs={12} md={4}>
+									<FormControl style={inputStyle}>
+										<InputLabel htmlFor="year">{i18next.t('year')}</InputLabel>
+										<Select
+											inputProps={{
+												name: 'year',
+												id: 'year',
+											}}
+											value={year}
+											onChange={this.handleChange}
+										>
+											{
+												years.map(year => (
+													<MenuItem key={year} value={year}>{year}</MenuItem>
+												))
+											}
+										</Select>
+									</FormControl>
+								</Grid>
+							</Grid>
+							{/* <TextField
 								label={i18next.t('fuelConsumption.label') + ' (L/km)'}
 								onChange={(e) => {
 									this.setConsumption(e.target.value);
@@ -175,7 +318,7 @@ class App extends React.Component {
 								style={inputStyle}
 								type="number"
 								value={this.state.consumption}
-							/>
+							/> */}
 						</div>
 
 						<div className="form-control">

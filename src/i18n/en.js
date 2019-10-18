@@ -10,4 +10,7 @@ export default {
     language: {label: 'Language'},
     values: 'Values',
     theme: 'Theme',
+    brand: 'Brand',
+    model: 'Model',
+    year: 'Year',
   }
